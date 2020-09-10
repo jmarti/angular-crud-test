@@ -10,6 +10,7 @@ import { Service, Category } from './app';
 export class AppComponent implements OnInit {
   services: Service[];
   categories: Category[];
+
   serviceForm: Service = {
     id: null,
     title: null,
@@ -17,9 +18,9 @@ export class AppComponent implements OnInit {
     category: null
   };
 
-  constructor(
-    private appService: AppService
-  ) { }
+  selectedCategoryId: number = null;
+
+  constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.services = this.appService.getItems();
@@ -30,35 +31,44 @@ export class AppComponent implements OnInit {
     this.serviceForm = Object.assign({}, service);
   }
 
-  onDeleteService(serviceId: number) {
-    this.services = this.appService.deleteService(serviceId);
-
-    if (serviceId === this.serviceForm.id) {
-      this.resetForm();
-    }
+  onSelectCategory(categoryId?: number) {
+    this.selectedCategoryId = categoryId || null;
+    console.log(this.selectedCategoryId);
   }
 
-  onSaveForm() {
+  onSaveServiceForm() {
     if (!this.serviceForm.title ||
         !this.serviceForm.description ||
         !this.serviceForm.category) {
       return;
     }
-    
+    console.log(this.serviceForm.title, this.serviceForm.description, this.serviceForm.category);
     if (this.serviceForm.id) {
       this.appService.editService(this.serviceForm);
     } else {
       this.appService.addService(this.serviceForm);
     }
 
-    this.resetForm();
+    if (this.selectedCategoryId && this.selectedCategoryId !== this.serviceForm.category) {
+      this.selectedCategoryId = this.serviceForm.category;
+    }
+
+    this.resetServiceForm();
   }
 
-  onResetForm() {
-    this.resetForm();
+  onDeleteService(serviceId: number) {
+    this.services = this.appService.deleteService(serviceId);
+
+    if (serviceId === this.serviceForm.id) {
+      this.resetServiceForm();
+    }
   }
 
-  private resetForm() {
+  onResetServiceForm() {
+    this.resetServiceForm();
+  }
+
+  private resetServiceForm() {
     this.serviceForm = {
       title: null,
       description: null,

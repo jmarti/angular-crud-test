@@ -1,7 +1,12 @@
 <header class="navbar navbar-expand navbar-light bg-light">
-  <ul class="navbar-nav mr-auto">
-    <li *ngFor="let category of categories" class="nav-item active">
-      <a class="nav-link">{{category.name}}</a>
+  <ul class="navbar-nav mx-n2">
+    <li class="nav-item" [ngClass]="{'active': !selectedCategoryId}">
+      <button class="btn btn-link nav-link" (click)="onSelectCategory()">Todos</button>
+    </li>
+    <li *ngFor="let category of categories" 
+        [ngClass]="{'active': selectedCategoryId === category.id}"
+        class="nav-item">
+      <button class="btn btn-link nav-link" (click)="onSelectCategory(category.id)">{{category.name}}</button>
     </li>
   </ul>
 </header>
@@ -9,7 +14,7 @@
   <div class="row pt-3">
     <div class="col-lg-8">
       <div class="row">
-        <div *ngFor="let service of services" class="col-lg-4">
+        <div *ngFor="let service of (services | filterServices: selectedCategoryId)" class="col-lg-4">
           <div class="card mb-3">
             <div class="card-body">
               <h5 class="card-title">{{service.title}}</h5>
@@ -38,16 +43,16 @@
           <div class="form-group">
             <label>Categoría</label>
             <select class="custom-select" [(ngModel)]="serviceForm.category">
-              <option selected="selected" disabled>Selecciona</option>
-              <option *ngFor="let category of categories" [value]="category.id">
+              <option disabled [value]="null">Selecciona</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">
                 {{category.name}}
               </option>
             </select>
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-outline-success" (click)="onSaveForm()">Grabar</button>
-          <button class="btn btn-outline-danger" (click)="onResetForm()">Cancelar</button>
+          <button class="btn btn-outline-success" (click)="onSaveServiceForm()">Grabar</button>
+          <button class="btn btn-outline-danger" (click)="onResetServiceForm()">Cancelar</button>
         </div>
       </div>
     </div>

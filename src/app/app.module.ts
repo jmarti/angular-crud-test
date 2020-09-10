@@ -5,10 +5,12 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
+import { FilterServicesByCategoryPipe } from './app.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterServicesByCategoryPipe,
   ],
   imports: [
     BrowserModule,
