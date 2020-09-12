@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Category, Service } from './app';
 
 @Injectable()
 export class AppService {

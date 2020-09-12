@@ -1,9 +1,9 @@
-export interface Category {
+declare interface Category {
     id: number;
     name: string;
 }
 
-export interface Service {
+declare interface Service {
     id?: number;
     title: string;
     description: string;
